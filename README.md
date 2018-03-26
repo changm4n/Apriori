@@ -13,13 +13,14 @@
 
 
 
+
+
 ## Algorithms
 
 * Make frequent pattern
-
 * Find association rules
 
-  ​
+
 
 ### Make frequent pattern
 
@@ -44,13 +45,16 @@ while len(C) != 0:     #1
     L.clear()
 ```
 
-\#1 더이상 C(n)이 생성되지 않을 때 까지 반복문이 실행됩니다.
+- \#1 더이상 C(n)이 생성되지 않을 때 까지 반복문이 실행됩니다.
 
-\#2 C(n)가 생성되었다면, 각 ItemSet들의 Support 를 구하여, 사용자가 입력한 minSupport 와 비교합니다. 만약 minSupport보다 크거나 같다면, L(n)에 추가합니다.
 
-\#3 itemSet의 Support 가 min값 이상이므로 Frequent Pattern으로 저장합니다.
+- \#2 C(n)가 생성되었다면, 각 ItemSet들의 Support 를 구하여, 사용자가 입력한 minSupport 와 비교합니다. 만약 minSupport보다 크거나 같다면, L(n)에 추가합니다.
 
-\#4 생성된 L(n)을 GenerateC 함수를 통하여 C(n+1) 배열을 생성합니다.
+
+- \#3 itemSet의 Support 가 min값 이상이므로 Frequent Pattern으로 저장합니다.
+
+
+- \#4 생성된 L(n)을 GenerateC 함수를 통하여 C(n+1) 배열을 생성합니다.
 
 
 
@@ -66,13 +70,10 @@ def generateRules():
     return rules
 ```
 
-\#1 이전의 과정으로 저장된 모든 Frequent Patterns 중, 길이가 2 이상인 Set에 대하여 진행합니다.
-
-\#2 구현한 getAllSubsets 함수를 활용하여 Set의 모든 subset에 대하여 진행됩니다.
-
-\#3  전체 Set 과, \#2에서 구한 subset의 차집합을 구합니다.
-
-\#4 \#3에서 구한 두 Set을 통하여 rule을 생성합니다.
+- \#1 이전의 과정으로 저장된 모든 Frequent Patterns 중, 길이가 2 이상인 Set에 대하여 진행합니다.
+- \#2 구현한 getAllSubsets 함수를 활용하여 Set의 모든 subset에 대하여 진행됩니다.
+- \#3  전체 Set 과, \#2에서 구한 subset의 차집합을 구합니다.
+- \#4 \#3에서 구한 두 Set을 통하여 rule을 생성합니다.
 
 
 
@@ -102,13 +103,10 @@ def getSupport(item):
         return support
 ```
 
-\#1 hashable한 Set을 만들기 위해 frozenset을 활용하였습니다.
-
-\#2 Set에 대하여 사전에 caching된 support 값이 있다면 그 값을 return 합니다.
-
-\#3 cache가 없다면, 모든 transaction에 대하여 issubset 함수를 활용하여 유무를 체크합니다.
-
-\#4 계산된 support 값을 caching 합니다.
+- \#1 hashable한 Set을 만들기 위해 frozenset을 활용하였습니다.
+- \#2 Set에 대하여 사전에 caching된 support 값이 있다면 그 값을 return 합니다.
+- \#3 cache가 없다면, 모든 transaction에 대하여 issubset 함수를 활용하여 유무를 체크합니다.
+- \#4 계산된 support 값을 caching 합니다.
 
 
 
@@ -165,13 +163,10 @@ def generateRules():
     return rules
 ```
 
-\#1 이전의 과정으로 저장된 모든 Frequent Patterns 중, 길이가 2 이상인 Set에 대하여 진행합니다.
-
-\#2 구현한 getAllSubsets 함수를 활용하여 Set의 모든 subset에 대하여 진행됩니다.
-
-\#3  전체 Set 과, \#2에서 구한 subset의 차집합을 구합니다.
-
-\#4 \#3에서 구한 두 Set을 통하여 rule을 생성합니다.
+- \#1 이전의 과정으로 저장된 모든 Frequent Patterns 중, 길이가 2 이상인 Set에 대하여 진행합니다.
+- \#2 구현한 getAllSubsets 함수를 활용하여 Set의 모든 subset에 대하여 진행됩니다.
+- \#3  전체 Set 과, \#2에서 구한 subset의 차집합을 구합니다.
+- \#4 \#3에서 구한 두 Set을 통하여 rule을 생성합니다.
 
 
 
