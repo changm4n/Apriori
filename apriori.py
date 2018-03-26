@@ -1,13 +1,7 @@
-import itertools
-
-def pruning(L,c):
-    for sub in set(itertools.combinations(c, len(c)-1)):
-        if sorted(list(sub)) not in L:
-            return False
-    return True
+from utils import *
+import sys
 
 def getSupport(item):
-
     itemSet = frozenset(item)
     if itemSet in cache:
         return cache[itemSet]
@@ -23,38 +17,29 @@ def getSupport(item):
 def getConfidence(lhs, rhs):
     return roundTo2Dec(getSupport(lhs) / getSupport(rhs) * 100)
 
-def GenerateC(L, k):
+def GenerateC(Ln):
     candidates = []
-    for i in range(0,len(L)):
-        for j in range(i+1, len(L)):
-            c = sorted(list(set(L[i]) | set(L[j])))
-            if len(c) == len(L[i]) + 1:
-                if pruning(L,c) and c not in candidates:
+    for i in range(0,len(Ln)):
+        for j in range(i+1, len(Ln)):
+            c = sorted(list(set(Ln[i]) | set(Ln[j])))
+            if len(c) == len(Ln[i]) + 1:
+                if pruning(Ln,c) and c not in candidates:
                         candidates.append(c)
     return candidates
+
+def pruning(Ln,c):
+    for sub in set(getSubsets(c, len(c)-1)):
+        if sorted(list(sub)) not in Ln:
+            return False
+    return True
 
 def generateRules():
     rules = ""
     for pattern in filter(lambda x: len(x) > 1, frequentPatterns):
         for subset in getAllSubsets(pattern):
-            diff = set(pattern) - set(subset)
-            rules += makeRuleStr(list(subset),list(diff),getSupport(pattern),getConfidence(pattern,subset))
+            rest = set(pattern) - set(subset)
+            rules += makeRuleStr(list(subset),list(rest),getSupport(pattern),getConfidence(pattern,subset))
     return rules
-
-def getAllSubsets(superSet):
-    result = set()
-    for i in range(1, len(superSet)):
-        result = result | set(itertools.combinations(superSet, i))
-
-    return result
-
-def makeRuleStr(lhs, rhs, support, conf):
-    return ("{%s}\t{%s}\t%.2f\t%.2f\n" % (",".join(map(str, lhs)), ",".join(map(str, rhs)), support, conf))
-
-def roundTo2Dec(value):
-    value = float(value)
-    return round(value,2)
-
 
 transactions = []
 frequentPatterns = []
@@ -62,10 +47,13 @@ cache = {}
 C = []
 L = []
 
-minSupport = 4
+if len(sys.argv) != 4:
+    print("invalid argument")
+    sys.exit()
 
-input_file = open("input.txt", 'r')
-output_file = open("output.txt", "w")
+minSupport = int(sys.argv[1])
+input_file = open(sys.argv[2], 'r')
+output_file = open(sys.argv[3], "w")
 
 lines = input_file.read().split('\n')
 
@@ -75,7 +63,6 @@ for line in lines:
     transactions.append(sorted(arr))
 C = [[i] for i in C]
 
-step = 2
 while len(C) != 0:
     for item in C:
         support = getSupport(item)
@@ -83,12 +70,10 @@ while len(C) != 0:
             L.append(item)
             if item not in frequentPatterns:
                 frequentPatterns.append(item)
-    C = GenerateC(L, step)
-    step += 1
+    C = GenerateC(L)
     L.clear()
 
 output_file.write(generateRules())
 
 input_file.close()
 output_file.close()
-
