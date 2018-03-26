@@ -217,7 +217,7 @@ python3가 설치된 환경에서
 
 ## Test Result
 
-![test_result](/Users/changminlee/Documents/HYU/4-1/DS/PA1/resources/test_result.png)
+![test_result](./resources/test_result.png)
 
 구현한 소스를 실행하여 나타난 output을 Test하여 나타난 결과입니다.
 
